@@ -68,7 +68,10 @@
             </button>
             
             <div id="menu-aset" class="{{ request()->is('aset*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
-                <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar Semua Aset</a>
+                <a href="{{ route('aset.index') }}" 
+                    class="block px-3 py-2 text-xs rounded transition {{ request()->routeIs('aset.*') ? 'bg-[#0d3270] text-yellow-400 font-bold' : 'text-blue-200 hover:bg-[#0d3270] hover:text-yellow-300' }}">
+                    ▸ Daftar Semua Aset
+                </a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Mutasi / Peminjaman</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Pemeliharaan</a>
             </div>
