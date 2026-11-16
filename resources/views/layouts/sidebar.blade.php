@@ -40,16 +40,16 @@
 
         <!-- TREE MENU 1: Administrasi Data -->
         <div>
-            <button onclick="toggleMenu('menu-master', 'icon-master')" type="button" 
+            <button onclick="toggleMenu('menu-admin', 'icon-admin')" type="button" 
                     class="flex items-center justify-between w-full px-3.5 py-2.5 rounded-lg font-medium text-blue-100 hover:bg-[#0d3270] hover:text-white transition focus:outline-none">
                 <span class="flex items-center">
                     <svg class="w-4 h-4 mr-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
                     ADMINISTRASI DATA
                 </span>
-                <svg id="icon-master" class="w-3.5 h-3.5 text-yellow-400 transition-transform duration-200 {{ request()->is('master*') ? '-rotate-90' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <svg id="icon-master" class="w-3.5 h-3.5 text-yellow-400 transition-transform duration-200 {{ request()->is('admin*') ? '-rotate-90' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
-            <div id="menu-master" class="{{ request()->is('master*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
+            <div id="menu-admin" class="{{ request()->is('admin*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar User</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar Menu</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Group Menu</a>
@@ -100,7 +100,7 @@
 
 <!-- TREE MENU 2: Approval Request -->
         <div>
-            <button onclick="toggleMenu('menu-aset', 'icon-aset')" type="button" 
+            <button onclick="toggleMenu('menu-approval', 'icon-approval')" type="button" 
                     class="flex items-center justify-between w-full px-3.5 py-2.5 rounded-lg font-medium text-blue-100 hover:bg-[#0d3270] hover:text-white transition focus:outline-none">
                 <span class="flex items-center">
                     <svg class="w-4 h-4 mr-3 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
@@ -109,7 +109,7 @@
                 <svg id="icon-aset" class="w-3.5 h-3.5 text-yellow-400 transition-transform duration-200 {{ request()->is('aset*') ? '-rotate-90' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
-            <div id="menu-aset" class="{{ request()->is('aset*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
+            <div id="menu-approval" class="{{ request()->is('approval*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Approval Purchase Request</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Approval Purchase Order</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Approval Payment Request</a>
