@@ -21,16 +21,36 @@ class AssetController extends Controller
         }
 
         $assets = $query->latest()->paginate(10);
-        return view('aset.index', compact('assets'));
+        return view('master.aset.index', compact('assets'));
     }
 
     public function create()
     {
-        return view('aset.create');
+        $kategoris = [
+            'Elektronik & IT',
+            'Furnitur Kantor',
+            'Kendaraan',
+            'Mesin & Peralatan',
+        ];
+
+        $kondisis = [
+            'Baik',
+            'Rusak Ringan',
+            'Rusak Berat',
+            'Butuh Perbaikan'
+        ];
+
+        return view('master.aset.create', compact('kategoris','kondisis'));
     }
 
     public function store(Request $request)
     {
+        if ($request->filled('harga')) {
+            $request->merge([
+                'harga' => str_replace(',', '', $request->harga),
+            ]);
+        }
+
         $validated = $request->validate([
             'kode_aset'    => 'required|string|max:50|unique:assets,kode_aset',
             'nama_aset'    => 'required|string|max:255',
@@ -42,19 +62,27 @@ class AssetController extends Controller
             'keterangan'   => 'nullable|string',
         ]);
 
+        $tableStatus = DB::select("SHOW TABLE STATUS LIKE 'assets'");
+        $nextId      = $tableStatus[0]->Auto_increment ?? 1;
+
+        $prefix   = date('ym') . '/AST/'; // Menghasilkan "2611/AST/"
+        $sequence = str_pad($nextId, 6, '0', STR_PAD_LEFT); // Menghasilkan "000001"
+
+        $validated['kode_aset'] = $prefix . $sequence;
+
         Asset::create($validated);
 
-        return redirect()->route('aset.index')->with('success', 'Data aset baru berhasil ditambahkan!');
+        return redirect()->route('master.aset.index')->with('success', 'Data aset baru berhasil ditambahkan!');
     }
 
     public function show(Asset $aset)
     {
-        return view('aset.show', compact('aset'));
+        return view('master.aset.show', compact('aset'));
     }
 
     public function edit(Asset $aset)
     {
-        return view('aset.edit', compact('aset'));
+        return view('master.aset.edit', compact('aset'));
     }
 
     public function update(Request $request, Asset $aset)
@@ -72,13 +100,13 @@ class AssetController extends Controller
 
         $aset->update($validated);
 
-        return redirect()->route('aset.index')->with('success', 'Data aset berhasil diperbarui!');
+        return redirect()->route('master.aset.index')->with('success', 'Data aset berhasil diperbarui!');
     }
 
     public function destroy(Asset $aset)
     {
         $aset->delete();
 
-        return redirect()->route('aset.index')->with('success', 'Data aset berhasil dihapus!');
+        return redirect()->route('master.aset.index')->with('success', 'Data aset berhasil dihapus!');
     }
 }

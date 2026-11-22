@@ -38,6 +38,44 @@
 
     <!-- Script Toggle Sidebar (Desktop & Mobile) dan Tree Menu -->
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currencyInputs = document.querySelectorAll('.currency-input');
+
+            currencyInputs.forEach(function (input) {
+                // Format ribuan saat user mengetik
+                input.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/[^0-9.]/g, ''); // Hanya izinkan angka & titik
+                    let parts = value.split('.');
+                    
+                    // Format bagian ribuan dengan koma
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    
+                    // Batasi maksimal 2 angka di belakang titik
+                    if (parts.length > 1) {
+                        parts[1] = parts[1].substring(0, 2);
+                        e.target.value = parts[0] + '.' + parts[1];
+                    } else {
+                        e.target.value = parts[0];
+                    }
+                });
+
+                // Otomatis tambahkan .00 saat user selesai mengetik (keluar dari input)
+                input.addEventListener('blur', function (e) {
+                    if (e.target.value !== '') {
+                        let raw = e.target.value.replace(/,/g, '');
+                        let num = parseFloat(raw);
+                        if (!isNaN(num)) {
+                            e.target.value = num.toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+
         function toggleSidebar() {
             const sidebar = document.getElementById('main-sidebar');
             const overlay = document.getElementById('sidebar-overlay');

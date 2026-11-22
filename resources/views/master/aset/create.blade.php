@@ -15,8 +15,8 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kode Aset *</label>
-                    <input type="text" name="kode_aset" value="{{ old('kode_aset') }}" placeholder="Contoh: AST-2026-001" required
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kode Aset</label>
+                    <input type="text" name="kode_aset" value="{{ old('kode_aset') }}" placeholder="Contoh: 2611/AST/000001" disabled
                            class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454] focus:ring-2 focus:ring-yellow-400/50">
                     @error('kode_aset') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
                 </div>
@@ -32,10 +32,11 @@
                     <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kategori *</label>
                     <select name="kategori" required class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454]">
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="Elektronik & IT" {{ old('kategori') == 'Elektronik & IT' ? 'selected' : '' }}>Elektronik & IT</option>
-                        <option value="Furnitur Kantor" {{ old('kategori') == 'Furnitur Kantor' ? 'selected' : '' }}>Furnitur Kantor</option>
-                        <option value="Kendaraan" {{ old('kategori') == 'Kendaraan' ? 'selected' : '' }}>Kendaraan</option>
-                        <option value="Mesin & Peralatan" {{ old('kategori') == 'Mesin & Peralatan' ? 'selected' : '' }}>Mesin & Peralatan</option>
+                        @foreach ($kategoris as $kategori)
+                            <option value="{{ $kategori }}" {{ old('kategori') == $kategori ? 'selected' : '' }}>
+                                {{ $kategori }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('kategori') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
                 </div>
@@ -56,25 +57,37 @@
 
                 <div>
                     <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Harga Perolehan (Rp) *</label>
-                    <input type="number" name="harga" value="{{ old('harga', 0) }}" min="0" required
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm text-slate-500">Rp</span>
+                        <input type="text" 
+                            name="harga_perolehan" 
+                            value="{{ old('harga', isset($asset) ? number_format($asset->harga, 2, '.', ',') : '') }}"
+                            placeholder="0.00"
+                            required
+                            class="currency-input w-full pl-10 pr-3.5 py-2 text-sm text-right border border-slate-300 rounded-lg focus:outline-none">
+                    </div>
+                    <!-- <input type="number" name="harga" value="{{ old('harga', 0) }}" min="0" required
                            class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454] focus:ring-2 focus:ring-yellow-400/50">
-                    @error('harga') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
+                    @error('harga') <span class="text-xs text-red-600">{{ $message }}</span> @enderror -->
                 </div>
-            </div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kondisi Aset *</label>
-                <select name="kondisi" required class="w-full sm:w-1/2 px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454]">
-                    <option value="Baik" {{ old('kondisi') == 'Baik' ? 'selected' : '' }}>Baik</option>
-                    <option value="Rusak Ringan" {{ old('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
-                    <option value="Rusak Berat" {{ old('kondisi') == 'Rusak Berat' ? 'selected' : '' }}>Rusak Berat</option>
-                </select>
-            </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kondisi Aset *</label>
+                    <select name="kondisi" required class="w-full sm:w-1/2 px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454]">
+                        <option value="">--Pilih Kondisi--</option>
+                        @foreach ($kondisis as $kondisi)
+                            <option value="{{ $kondisi }}" {{ old('kondisi') == $kondisi ? 'selected' : '' }}>
+                                {{ $kondisi }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Keterangan / Spesifikasi</label>
-                <textarea name="keterangan" rows="3" placeholder="Catatan tambahan mengenai kondisi atau spesifikasi aset..."
-                          class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454] focus:ring-2 focus:ring-yellow-400/50">{{ old('keterangan') }}</textarea>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Keterangan / Spesifikasi</label>
+                    <textarea name="keterangan" rows="3" placeholder="Catatan tambahan mengenai kondisi atau spesifikasi aset..."
+                            class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#082454] focus:ring-2 focus:ring-yellow-400/50">{{ old('keterangan') }}</textarea>
+                </div>
             </div>
 
             <div class="pt-3 flex items-center space-x-3 border-t border-slate-100">

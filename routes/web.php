@@ -19,7 +19,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // route Asset
-    Route::resource('aset', AssetController::class);
+    // Route::resource('master/aset', AssetController::class);
+    // Route::get('/aset', [AssetController::class, 'index'])->name('aset.index');
+    
+    Route::resource('master/aset', AssetController::class)->names('aset');
+
 });
 
 
