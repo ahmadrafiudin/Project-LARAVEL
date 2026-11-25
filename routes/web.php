@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Aset\AssetController; // Tambahkan \Aset
+use App\Http\Controllers\Master\AssetController; 
+use App\http\Controllers\Administration\MenuController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,9 @@ Route::middleware('auth')->group(function () {
     // Route::get('/aset', [AssetController::class, 'index'])->name('aset.index');
     
     Route::resource('master/aset', AssetController::class)->names('aset');
+
+    Route::resource('administration/menu', MenuController::class)->names('menu');
+
 
 });
 

@@ -51,7 +51,7 @@
             
             <div id="menu-admin" class="{{ request()->is('admin*') ? '' : 'hidden' }} mt-1 ml-4 pl-3 border-l-2 border-yellow-400/50 space-y-1">
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar User</a>
-                <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar Menu</a>
+                <a href="{{ route('menu.index') }}" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Daftar Menu</a>
                 <a href="#" class="block px-3 py-2 text-xs text-blue-200 rounded hover:bg-[#0d3270] hover:text-yellow-300 transition">▸ Group Menu</a>
             </div>
         </div>

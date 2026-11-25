@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Aset;
+namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller; // Wajib ditambahkan karena pindah sub-folder
 use App\Models\Asset;
