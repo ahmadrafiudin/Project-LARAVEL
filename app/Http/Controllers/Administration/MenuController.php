@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller; // Wajib ditambahkan karena pindah sub-fold
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class MenuController extends Controller
 {
@@ -76,4 +78,82 @@ class MenuController extends Controller
         return view('administration.menu.index', compact('menus'));
     }
 
+    public function create()
+    {
+        $parentMenus = Menu::where('is_active', 1)
+                        ->where('parent_menu_id',1)
+                        ->orderBy('id', 'asc')
+                        ->pluck('menu_name', 'id');
+
+        return view('administration.menu.create', compact('parentMenus'));
+    }
+
+    public function store(Request $request)
+    {
+        //  dd($request->all()); 
+
+        $validated = $request->validate([
+            // 'menu_code'      => 'nullable|string|max:50|unique:menu,menu_code',
+            'menu_name'      => 'required|string|max:100',
+            'level'          => 'required|integer',
+            'parent_menu_id' => 'nullable|exists:menu,id',
+            'route'          => 'nullable|string|max:100',
+            'action'         => 'nullable|string|max:100',
+        ]);
+
+        $tableStatus = DB::select("SHOW TABLE STATUS LIKE 'menu'");
+        $nextId      = $tableStatus[0]->Auto_increment ?? 1;
+
+        $sequence = str_pad($nextId, 6, '0', STR_PAD_LEFT); // Menghasilkan "000001"
+
+        $validated['menu_code'] = 'MN' . $sequence;
+        $validated['is_active'] = $request->input('is_active', 1);
+        $validated['created_by'] = Auth::id(); 
+
+        Menu::create($validated);
+
+        return redirect()->route('menu.index')->with('success', 'Menu berhasil ditambahkan.');
+    }
+
+    public function edit(Menu $menu)
+    {
+        // Kecualikan menu itu sendiri dari pilihan parent agar tidak loop
+        $parentMenus = Menu::where('id', '!=', $menu->id)
+                            ->where('is_active', 1)
+                            ->where('parent_menu_id',1)
+                            ->orderBy('id', 'asc')
+                            ->pluck('menu_name', 'id');
+
+                            
+        return view('administration.menu.edit', compact('menu', 'parentMenus'));
+    }
+
+    public function update(Request $request, Menu $menu)
+    {
+        $validated = $request->validate([
+            'menu_code'      => 'required|string|max:50|unique:menu,menu_code,' . $menu->id,
+            'menu_name'      => 'required|string|max:100',
+            'level'          => 'required|integer',
+            'parent_menu_id' => 'nullable|exists:menu,id',
+            'route'          => 'nullable|string|max:100',
+            'action'         => 'nullable|string|max:100',
+            'is_active'      => 'required|boolean',
+        ]);
+
+        $menu->update($validated);
+
+        return redirect()->route('administration.menu.index')->with('success', 'Menu berhasil diperbarui.');
+    }
+
+    public function destroy(Menu $menu)
+    {
+        $menu->delete();
+
+        return redirect()->route('administration.menu.index')->with('success', 'Menu berhasil dihapus.');
+    }
+
+    public function show(Menu $menu)
+    {
+        return redirect()->route('administration.menu.edit', $menu->id);
+    }
 }
