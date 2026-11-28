@@ -18,5 +18,7 @@ class Asset extends Model
         'harga',
         'kondisi',
         'keterangan',
+        'created_by',
+        'updated_by',
     ];
 }

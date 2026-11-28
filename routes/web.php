@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Master\AssetController; 
 use App\http\Controllers\Administration\MenuController;
+use App\http\Controllers\Administration\GroupMenuController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('master/aset', AssetController::class)->names('aset');
 
     Route::resource('administration/menu', MenuController::class)->names('menu');
+
+    Route::resource('administration/groupmenu', GroupMenuController::class)->names('groupmenu');
 
 
 });

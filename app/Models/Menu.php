@@ -19,5 +19,6 @@ class Menu extends Model
             'action', 
             'is_active',
             'created_by',
+            'updated_by',
     ];
 }
